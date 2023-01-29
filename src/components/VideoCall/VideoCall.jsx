@@ -20,7 +20,7 @@ export const VideoCall = () => {
     };
     return (
       <div className="App">
-        <h1>hello</h1>
+        <h1>hi</h1>
         <button>Take a photo</button>
           <video ref={videoRef}/>
       </div>
