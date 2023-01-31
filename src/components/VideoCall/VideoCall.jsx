@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 
+
 export const VideoCall = () => {
     const videoRef = useRef(null);
     useEffect(()=>{
@@ -20,9 +21,12 @@ export const VideoCall = () => {
     };
     return (
       <div className="App">
+          
+ 
+     
         <h1>hi</h1>
         <button>Take a photo</button>
-          <video ref={videoRef}/>
+          {/* <video ref={videoRef}/> */}
       </div>
     );
 }

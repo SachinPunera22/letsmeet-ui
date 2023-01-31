@@ -1,21 +1,52 @@
 import React from "react";
 import { Navbar } from "./Navbar";
-import Typed from "react-typed"
+import Typed from "react-typed";
+import { BsLaptop } from "react-icons/bs";
+import { Link } from "react-router-dom";
 export const Home = () => {
   return (
     <div className="h-screen w-screen bg-bgImg bg-cover  ">
       <Navbar />
-      <Typed
-      strings={[
-            "Meet",
-            "Chat",
-            "Connect",
-          ]}
-          typeSpeed={30}
-          backSpeed={30}
-          loop
-        />
+
+      <div className="flex flex-col  w-screen">
+        <div className="flex justify-center w-screen">
+          <span className="text-8xl p-5">
+            <BsLaptop style={{ color: "white" }} />
+          </span>
+        </div>
+        <div className="flex  justify-center w-screen">
+          <Typed
+            className="text-white text-6xl font-bold"
+            strings={["Meet", "Chat", "Connect"]}
+            typeSpeed={60}
+            backSpeed={60}
+            loop
+          />
+        </div>
+        <div className="flex  justify-center w-screen text-teal-200 text-2xl pt-20">
+          <h3>
+            Connect with millions of people Around the globe With one click.
+          </h3>
+        </div>
+
+        <div className="flex  justify-center w-screen text-2xl pt-20">
+          <Link
+            type="submit"
+            className="mx-2 bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded"
+          to="/VideoCall"
+
+          >
+            Connect
+          </Link>
+          <input
+            type="text"
+            className=" py-1 px-4 border-transparent rounded"
+            placeholder="Enter the code"
+          />
+        </div>
+      </div>
+
       {/* <input class=" p-1 w-300 border-2 border-rose-500 md:w-200 lg:w-500  rounded  "></input> */}
     </div>
-  )
-}
+  );
+};
