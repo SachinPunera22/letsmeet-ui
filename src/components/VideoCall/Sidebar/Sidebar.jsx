@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import CopyToClipboard from "react-copy-to-clipboard";
 
-import { SocketContext } from "../../SocketContext";
+import { SocketContext } from "../../../service/SocketContext";
 
 const Sidebar = ({ children }) => {
   const { me, callAccepted, name, setName, callEnded, leaveCall, callUser } =
@@ -35,7 +35,7 @@ const Sidebar = ({ children }) => {
           <input
             placeholder="Id to call"
             type="text"
-            aria-label="ID to call"
+            aria-label="ID to call"     
             value={idToCall}
             onChange={(e) => setIdToCall(e.target.value)}
           />

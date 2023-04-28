@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import { SocketContext } from '../../SocketContext'
+import { SocketContext } from "../../../service/SocketContext";
 
 const Notification = () => {
   const { answerCall, call, callAccepted } = useContext(SocketContext);
@@ -20,3 +20,5 @@ const Notification = () => {
 }
 
 export default Notification
+
+

@@ -1,41 +1,83 @@
-import React, { createContext, useState, useRef, useEffect } from "react";
+import React, {
+  createContext,
+  useState,
+  useRef,
+  useEffect,
+  useCallback,
+} from "react";
 import { io } from "socket.io-client";
 import Peer from "simple-peer";
 
 const SocketContext = createContext();
-
-// const socket = io("http://localhost:3001");
-const socket = io("https://anurag.loca.lt");
+const socket = io("http://localhost:3001");
+//const socket = io("https://anurag.loca.lt");
 // const socket = io('https://warm-wildwood-81069.herokuapp.com');
 
 const ContextProvider = ({ children }) => {
   const [callAccepted, setCallAccepted] = useState(false);
   const [callEnded, setCallEnded] = useState(false);
-  const [stream, setStream] = useState();
+  const [stream, setStream] = useState({});
   const [name, setName] = useState("");
   const [call, setCall] = useState({});
   const [me, setMe] = useState("");
 
-  const myVideo = useRef();
+  const myVideo = useRef({});
   const userVideo = useRef();
   const connectionRef = useRef();
 
   useEffect(() => {
+    initalizeVideo();
+  }, []);
+
+  const initalizeVideo = () => {
     navigator.mediaDevices
       .getUserMedia({ video: true, audio: true })
       .then((currentStream) => {
+        console.log("currentStream", currentStream);
         setStream(currentStream);
 
-        myVideo.current.srcObject = currentStream;
+        if (!myVideo.current) initalizeVideo();
+        else myVideo.current.srcObject = currentStream;
+
+        console.log("before stream:", stream);
+        console.log("myVideo", myVideo);
       });
 
-    socket.on("me", (id) => setMe(id));
+    socket.on("me", (id) => {
+      console.log("me:", id);
+      setMe(id);
+    });
 
     socket.on("callUser", ({ from, name: callerName, signal }) => {
       setCall({ isReceivingCall: true, from, name: callerName, signal });
     });
-  }, []);
+  };
+  const toggleCamera = () => {
+    console.log("toggleCamera");
+  
+    const videoTrack = stream
+      .getTracks()
+      .find((track) => track.kind === "video");
 
+    if (videoTrack.enabled) {
+      
+      videoTrack.enabled = false;
+    } else {
+      
+      videoTrack.enabled = true;
+    }
+  };
+  const toggleAudio = () => {
+    console.log("myVideo:", myVideo);
+    const audioTrack = stream.getTracks().find((track) => track.kind === "audio");
+     
+    if (audioTrack.enabled) {
+      audioTrack.enabled = false;
+    } else {
+      audioTrack.enabled = true;
+    }
+    console.log('audioTrack:',audioTrack);
+  };
   const answerCall = () => {
     setCallAccepted(true);
 
@@ -55,6 +97,8 @@ const ContextProvider = ({ children }) => {
   };
 
   const callUser = (id) => {
+    console.log("me:", me);
+    console.log("Calling User with Id:", id);
     const peer = new Peer({ initiator: true, trickle: false, stream });
 
     peer.on("signal", (data) => {
@@ -62,7 +106,7 @@ const ContextProvider = ({ children }) => {
         userToCall: id,
         signalData: data,
         from: me,
-        name,
+        name: "sachin",
       });
     });
 
@@ -81,7 +125,12 @@ const ContextProvider = ({ children }) => {
 
   const leaveCall = () => {
     setCallEnded(true);
-
+    socket.emit("callUser", {
+      userToCall: id,
+      signalData: data,
+      from: me,
+      name: "sachin",
+    });
     connectionRef.current.destroy();
 
     window.location.reload();
@@ -102,6 +151,9 @@ const ContextProvider = ({ children }) => {
         callUser,
         leaveCall,
         answerCall,
+        initalizeVideo,
+        toggleAudio,
+        toggleCamera,
       }}
     >
       {children}

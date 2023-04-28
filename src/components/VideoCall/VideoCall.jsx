@@ -1,35 +1,19 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext } from "react";
+import { SocketContext } from "../../service/SocketContext";
+import VideoPlayer from "./VideoPlayer/VideoPlayer";
+import Notification from "./Notification/Notification";
+import Sidebar from "./Sidebar/Sidebar";
 
+const VideoCall = () => {
+  
 
-export const VideoCall = () => {
-    const videoRef = useRef(null);
-    useEffect(()=>{
-      getVideo();
-    }, [videoRef]);
-    
-    const getVideo = () => {
-      navigator.mediaDevices
-        .getUserMedia({ video: { width: 300 } })
-        .then((stream) => {
-          let video = videoRef.current;
-          video.srcObject = stream;
-          video.play();
-        })
-        .catch((err) => {
-          console.log("error:", err);
-        });
-    };
-    return (
-      <div className="App">
-          
- 
-     
-        <h1>hi</h1>
-        <button>Take a photo</button>
-          {/* <video ref={videoRef}/> */}
-      </div>
-    );
+  return (
+    <>
+       <VideoPlayer />
+      {/* <Sidebar>
+      <Notification />
+      </Sidebar>  */}
+    </>
+  )
 }
-
-
-
+export default VideoCall

@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Navbar } from "./Navbar";
 import Typed from "react-typed";
 import { BsLaptop } from "react-icons/bs";
 import { Link } from "react-router-dom";
+
+import { SocketContext } from "../service/SocketContext";
+
 export const Home = () => {
+  const {
+    callUser
+  } = useContext(SocketContext);
+  const [idToCall, setIdToCall] = useState("");
   return (
     <div className="h-screen w-screen bg-bgImg bg-cover  ">
       <Navbar />
@@ -28,22 +35,31 @@ export const Home = () => {
             Connect with millions of people Around the globe With one click.
           </h3>
         </div>
-
-        <div className="flex  justify-center w-screen text-2xl pt-20">
+        <div className="flex  justify-center w-screen  pt-10">
+        <input
+            type="text"
+            className=" py-1 px-4 border-transparent rounded"
+            placeholder="Enter the code"
+            value={idToCall}
+            onChange={(e) => setIdToCall(e.target.value)}
+          />
+         <Link className="text-white text-teal-200 text-3xl px-2" to="/VideoCall" onClick={() => callUser(idToCall)}>Join</Link>
+        </div>
+        <div className="flex  justify-center w-screen  pt-10">
+        
+         <span className="text-white text-teal-200 text-3xl px-2">Or</span>
+        </div>
+        <div className="flex  justify-center w-screen text-2xl pt-10">
           <Link
             type="submit"
             className="mx-2 bg-blue-500 hover:bg-blue-700 text-white  py-2 px-4 rounded"
           to="/VideoCall"
-
           >
-            Connect
+            New Meeting
           </Link>
-          <input
-            type="text"
-            className=" py-1 px-4 border-transparent rounded"
-            placeholder="Enter the code"
-          />
+
         </div>
+        
       </div>
 
       {/* <input class=" p-1 w-300 border-2 border-rose-500 md:w-200 lg:w-500  rounded  "></input> */}
