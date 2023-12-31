@@ -9,7 +9,7 @@ import { io } from "socket.io-client";
 import Peer from "simple-peer";
 
 const SocketContext = createContext();
-const socket = io("http://localhost:3001");
+const socket = io("https://lest-meet-api.onrender.com");
 //const socket = io("https://anurag.loca.lt");
 // const socket = io('https://warm-wildwood-81069.herokuapp.com');
 
